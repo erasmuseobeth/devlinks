@@ -1,26 +1,13 @@
-// lib/prisma.ts
-
-import { PrismaClient } from '@prisma/client';
+import  { PrismaClient } from '@prisma/client'
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      prisma: PrismaClient;
-    }
-  }
+  var prisma: PrismaClient | undefined
 }
 
-let prisma: PrismaClient;
+export const prisma =
+  global.prisma ||
+  new PrismaClient({
+    log: ['query'],
+  });
 
-// Initialize PrismaClient based on environment
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient();
-} else {
-  // Ensure global.prisma is initialized only once in development
-  if (!global.prisma) {
-    global.prisma = new PrismaClient();
-  }
-  prisma = global.prisma;
-}
-
-export default prisma;
+if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
