@@ -18,7 +18,18 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        instrument: ["Instrument Sans", "sans-serif"],
+      },
       colors: {
+        "borders": "#D9D9D9",
+        "darkGrey": "#333333",
+        "grey": "#737373",
+        "lightGrey": "#FAFAFA",
+        "lightPurple": "#EFEBFF",
+        "purple": "#633CFF",
+        "purpleHover": "#BEADFF",
+        "red": "#FF3939",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -52,6 +63,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+      },
+      boxShadow: {
+        'btn-active': '0px 0px 32px 0px rgba(99, 60, 255, 0.25)',
       },
       borderRadius: {
         lg: "var(--radius)",

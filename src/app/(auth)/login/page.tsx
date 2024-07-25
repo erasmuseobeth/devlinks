@@ -3,11 +3,20 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Mail, Lock } from '@/components/Icons';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -29,33 +38,30 @@ export default function Page() {
   });
 
   // Submit handler
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const response = await fetch('/api/v1/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
+ // Submit handler
+async function onSubmit(values: z.infer<typeof formSchema>) {
+  // Send the login request
+  const response = await fetch('/api/v1/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        // Correctly use router.push with object format
-        router.push({
-          pathname: '/profile',
-          query: { user: JSON.stringify(result.user) },
-        });
-      } else {
-        console.error('Login failed:', result.message);
-        // Optionally show an error message to the user
-      }
-    } catch (error) {
-      console.error('Login failed:', error);
-      // Optionally show an error message to the user
-    }
+  if (response.ok) {
+    // Parse the response
+    const result = await response.json();
+    
+    // Redirect to the profile page with query parameters
+    const queryParams = new URLSearchParams({
+      user: JSON.stringify(result.user),
+    }).toString();
+    
+    router.push(`/profile?${queryParams}`);
   }
+}
+
 
   return (
     <div className="w-full flex flex-col items-start justify-start gap-6 sm:p-6 lg:p-8 font-instrument">
