@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+	],
   prefix: "",
   theme: {
     container: {
@@ -18,18 +18,7 @@ const config = {
       },
     },
     extend: {
-      fontFamily: {
-        instrument: ["Instrument Sans", "sans-serif"],
-      },
       colors: {
-        "borders": "#D9D9D9",
-        "darkGrey": "#333333",
-        "grey": "#737373",
-        "lightGrey": "#FAFAFA",
-        "lightPurple": "#EFEBFF",
-        "purple": "#633CFF",
-        "purpleHover": "#BEADFF",
-        "red": "#FF3939",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -64,9 +53,6 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-       boxShadow: {
-        'btn-active': '0px 0px 32px 0px rgba(99, 60, 255, 0.25)',
-      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -89,6 +75,6 @@ const config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+} satisfies Config
 
 export default config

@@ -1,20 +1,13 @@
-"use client";
-import Link from "next/link";
-import { Mail, Lock } from "@/components/Icons";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+"use client"
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Mail, Lock } from '@/components/Icons';
+import Link from 'next/link';
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -26,7 +19,7 @@ const formSchema = z.object({
 });
 
 export default function Page() {
-  //  form defination
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,28 +29,42 @@ export default function Page() {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await fetch('/api/v1/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Correctly use router.push with object format
+        router.push({
+          pathname: '/profile',
+          query: { user: JSON.stringify(result.user) },
+        });
+      } else {
+        console.error('Login failed:', result.message);
+        // Optionally show an error message to the user
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Optionally show an error message to the user
+    }
   }
 
   return (
-    <div className="w-full flex flex-col items-start justify-start gap-6 sm:p-6 lg:p-8 font-instrument" >
+    <div className="w-full flex flex-col items-start justify-start gap-6 sm:p-6 lg:p-8 font-instrument">
       {/* form heading */}
       <div className="w-full flex flex-col items-start justify-start">
-        <h2
-          className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl 
-        sm:text-xl
-        lg:text-2xl"
-        >
+        <h2 className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl sm:text-xl lg:text-2xl">
           Login
         </h2>
-        <div
-          className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument
-         sm:text-lg  
-         lg:text-xl"
-        >
+        <div className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument sm:text-lg lg:text-xl">
           Add your details below to get back into the app
         </div>
       </div>
@@ -76,10 +83,10 @@ export default function Page() {
                 <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
                   Email address
                 </FormLabel>
-                <Mail className="absolute top-10 left-4 w-4 h-4 " />
+                <Mail className="absolute top-10 left-4 w-4 h-4" />
                 <FormControl>
                   <Input
-                    // type="email"
+                    type="email"
                     {...field}
                     placeholder="e.g. alex@email.com"
                     className="bg-transparent"
@@ -98,7 +105,7 @@ export default function Page() {
                 <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
                   Password
                 </FormLabel>
-                <Lock className="absolute top-10 left-4 w-4 h-4 " />
+                <Lock className="absolute top-10 left-4 w-4 h-4" />
                 <FormControl>
                   <Input
                     type="password"
@@ -123,7 +130,6 @@ export default function Page() {
         <span className="text-grey text-base">Don&apos;t have an account?</span>
         <Link href="/register" className="text-purple transition hover:opacity-70 shadow-btn-active">Create account</Link>
        </div>
-
     </div>
   );
 }
