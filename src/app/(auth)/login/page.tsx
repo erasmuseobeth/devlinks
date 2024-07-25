@@ -19,10 +19,10 @@ import {
 
 
 const formSchema = z.object({
-  username: z.string().min(2, {
+  username: z.string().min(3, {
     message: "Can't be empty.",
   }),
-  password: z.string().min(1, {
+  password: z.string().min(8, {
     message: "Please check again.",
   }),
 });
@@ -64,13 +64,16 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
 
 
   return (
-    <div className="w-full flex flex-col items-start justify-start gap-6 sm:p-6 lg:p-8 font-instrument">
+    <div className="w-full bg-white flex flex-col items-start justify-start gap-4 
+          sm:p-6 
+          md:p-10 md:gap-10 md:self-stretch lg:p-8 font-instrument">
       {/* form heading */}
       <div className="w-full flex flex-col items-start justify-start">
-        <h2 className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl sm:text-xl lg:text-2xl">
+        <h2 className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl 
+        md:text-[2rem] md:leading-12 md:font-bold lg:text-3xl">
           Login
         </h2>
-        <div className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument sm:text-lg lg:text-xl">
+        <div className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument md:pt-1 lg:text-xl">
           Add your details below to get back into the app
         </div>
       </div>
@@ -79,14 +82,14 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full gap-6"
+          className="space-y-8 w-full gap-4"
         >
           <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
               <FormItem className="relative">
-                <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
+                <FormLabel className="text-xs font-normal non-italic leading-[1.12rem]">
                   Email address
                 </FormLabel>
                 <Mail className="absolute top-10 left-4 w-4 h-4" />
@@ -107,7 +110,7 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="relative">
+              <FormItem className="relative mt-6">
                 <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
                   Password
                 </FormLabel>
@@ -132,9 +135,9 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
         </form>
       </Form>
       
-      <div className="w-full flex self-stretch flex-col items-center justify-center font-normal leading-6">
-        <span className="text-grey text-base">Don&apos;t have an account?</span>
-        <Link href="/register" className="text-purple transition hover:opacity-70 shadow-btn-active">Create account</Link>
+      <div className="w-full flex self-stretch flex-col items-center justify-start font-normal leading-6 md:flex-row md:justify-center md:items-center">
+        <span className="text-grey text-base">Don&apos;t have an account? </span>
+        <Link href="/register" className="text-purple text-base transition md:pl-1 hover:opacity-70 hover:shadow-btn-active"> Create account</Link>
        </div>
     </div>
   );
