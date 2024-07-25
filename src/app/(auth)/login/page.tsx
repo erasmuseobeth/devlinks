@@ -1,11 +1,12 @@
-"use client";
-import Link from "next/link";
-import { Mail, Lock } from "@/components/Icons";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+"use client"
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { Mail, Lock } from '@/components/Icons';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -16,17 +17,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+
 const formSchema = z.object({
-  username: z.string().min(2, {
+  username: z.string().min(3, {
     message: "Can't be empty.",
   }),
-  password: z.string().min(1, {
+  password: z.string().min(8, {
     message: "Please check again.",
   }),
 });
 
 export default function Page() {
-  //  form defination
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,28 +38,42 @@ export default function Page() {
   });
 
   // Submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+ // Submit handler
+async function onSubmit(values: z.infer<typeof formSchema>) {
+  // Send the login request
+  const response = await fetch('/api/v1/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  });
+
+  if (response.ok) {
+    // Parse the response
+    const result = await response.json();
+    
+    // Redirect to the profile page with query parameters
+    const queryParams = new URLSearchParams({
+      user: JSON.stringify(result.user),
+    }).toString();
+    
+    router.push(`/profile?${queryParams}`);
   }
+}
+
 
   return (
-    <div className="w-full flex flex-col items-start justify-start gap-6 sm:p-6 lg:p-8 font-instrument" >
+    <div className="w-full bg-white flex flex-col items-start justify-start gap-4 
+          sm:p-6 
+          md:p-10 md:gap-10 md:self-stretch lg:p-8 font-instrument">
       {/* form heading */}
       <div className="w-full flex flex-col items-start justify-start">
-        <h2
-          className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl 
-        sm:text-xl
-        lg:text-2xl"
-        >
+        <h2 className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl 
+        md:text-[2rem] md:leading-12 md:font-bold lg:text-3xl">
           Login
         </h2>
-        <div
-          className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument
-         sm:text-lg  
-         lg:text-xl"
-        >
+        <div className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument md:pt-1 lg:text-xl">
           Add your details below to get back into the app
         </div>
       </div>
@@ -66,20 +82,20 @@ export default function Page() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full gap-6"
+          className="space-y-8 w-full gap-4"
         >
           <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
               <FormItem className="relative">
-                <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
+                <FormLabel className="text-xs font-normal non-italic leading-[1.12rem]">
                   Email address
                 </FormLabel>
-                <Mail className="absolute top-10 left-4 w-4 h-4 " />
+                <Mail className="absolute top-10 left-4 w-4 h-4" />
                 <FormControl>
                   <Input
-                    // type="email"
+                    type="email"
                     {...field}
                     placeholder="e.g. alex@email.com"
                     className="bg-transparent"
@@ -94,11 +110,11 @@ export default function Page() {
             control={form.control}
             name="password"
             render={({ field }) => (
-              <FormItem className="relative">
+              <FormItem className="relative mt-6">
                 <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
                   Password
                 </FormLabel>
-                <Lock className="absolute top-10 left-4 w-4 h-4 " />
+                <Lock className="absolute top-10 left-4 w-4 h-4" />
                 <FormControl>
                   <Input
                     type="password"
@@ -119,11 +135,10 @@ export default function Page() {
         </form>
       </Form>
       
-      <div className="w-full flex self-stretch flex-col items-center justify-center font-normal leading-6">
-        <span className="text-grey text-base">Don&apos;t have an account?</span>
-        <Link href="/register" className="text-purple transition hover:opacity-70 shadow-btn-active">Create account</Link>
+      <div className="w-full flex self-stretch flex-col items-center justify-start font-normal leading-6 md:flex-row md:justify-center md:items-center">
+        <span className="text-grey text-base">Don&apos;t have an account? </span>
+        <Link href="/register" className="text-purple text-base transition md:pl-1 hover:opacity-70 hover:shadow-btn-active"> Create account</Link>
        </div>
-
     </div>
   );
 }
