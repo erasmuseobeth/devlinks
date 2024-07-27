@@ -1,33 +1,36 @@
-import { Logo, User, Link, Eye, Devlinks } from "@/components/Icons";
+import { Logo, User, LinkIcon, Eye, Devlinks } from "@/components/Icons";
+import Link from "next/link";
+
 export default function ProfileNav() {
   return (
-    <div className="w-full relative rounded-xl bg-white overflow-hidden flex flex-col items-start justify-start p-4 text-left text-base text-purple font-heading-s sm:p-6 md:p-8">
-      <div className="self-stretch flex flex-row items-center justify-between gap-4">
+    <div className="flex flex-col items-start gap-2 bg-white p-4 rounded-xl w-screen font-heading-s text-base overflow-hidden">
+      <div className="flex flex-row justify-between items-center self-stretch">
         {/* Logo Section */}
-        <div className="w-[3.25rem] sm:w-[9.125rem] flex items-center justify-start relative h-[2rem]">
-          <Logo className="w-[2rem] h-[2rem] sm:absolute sm:top-0 sm:left-0" />
-          <Devlinks className="hidden sm:absolute sm:top-0.5 sm:left-[2.375rem] sm:w-[6.75rem] sm:h-[1.313rem]" />
+        <div className="flex flex-row justify-start items-center gap-2">
+          <Logo className="flex-shrink-0 w-8 h-8 fill-purple" />
+          <Devlinks className="flex-shrink-0 hidden h-5 fill-darkGrey" />
         </div>
 
         {/* Navigation Items */}
-        <div className="flex flex-row items-start justify-start gap-2 sm:gap-4">
-          <div className="rounded-lg bg-light-purple flex flex-row items-center justify-start py-2 px-4 gap-2">
-            <Link className="w-5 h-5" />
-            <div className="hidden sm:block text-sm font-semibold">Links</div>
+        <div className="flex flex-row justify-start items-start">
+          <div className="flex flex-row justify-start items-center gap-2 bg-lightPurple px-6 py-2.5 rounded-lg">
+            <LinkIcon className="w-5 h-5 fill-purple" />
+            <div className="sm:block hidden font-instrument font-semibold text-base text-purple not-italic">
+              Links
+            </div>
           </div>
-          <div className="rounded-lg flex flex-row items-center justify-start py-2 px-4 gap-2 text-grey">
+          <div className="flex flex-row justify-start items-center gap-2 px-6 py-2.5 rounded-lg">
             <User className="w-5 h-5" />
-            <div className="hidden sm:block text-sm font-semibold">
+            <div className="sm:block hidden font-instrument font-semibold text-base text-grey italic not">
               Profile Details
             </div>
           </div>
         </div>
 
         {/* Preview Button */}
-        <div className="hidden sm:flex flex-col items-start justify-start py-2 px-4 border border-purple">
-          <div className="w-[3.75rem] h-[1.5rem]">
-            <div className="leading-[150%] font-semibold">Preview</div>
-          </div>
+        <div className="sm:flex flex-col justify-start items-start gap-2 border-[1px] border-purple px-4 py-2.5 border-solid rounded-lg">
+          <Eye className="hw-5 -5 fill-purple" />
+          <div className="hidden font-semibold leading-9">Preview</div>
         </div>
       </div>
     </div>

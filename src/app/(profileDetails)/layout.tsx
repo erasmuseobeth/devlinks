@@ -6,7 +6,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <div className="flex flex-col justify-start items-start bg-lightGrey w-screen">
     <ProfileNav />
     {children}
     </div>
