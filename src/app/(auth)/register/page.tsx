@@ -74,7 +74,7 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
      {/* form heading */}
      <div className="flex flex-col items-start gap-2">
        <h2 className="font-bold font-instrument text-2xl text-darkGrey not-italic leading-9">
-         Login
+         Create account
        </h2>
        <div className="font-instrument font-normal text-base text-grey not-italic leading-6">
          Let&apos;s get you started sharing your links!
@@ -184,17 +184,19 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
          >
            Create new account
          </Button>
+         <div className="flex flex-col justify-start md:justify-center items-center md:items-center w-full font-instr font-instrument font-normal text-base text-center not-italic leading-6 self-stretch">
+           <span className="text-base text-grey">
+             Already have an account?{" "}
+           </span>
+           <Link
+             href="/login"
+             className="hover:opacity-70 hover:shadow-btn-active md:pl-1 text-base text-purple transition"
+           >
+             Login
+           </Link>
+         </div>
        </form>
      </Form>
-     <div className="flex flex-col justify-start md:justify-center items-center md:items-center w-full font-instr font-instrument font-normal text-base text-center not-italic leading-6 self-stretch">
-       <span className="text-base text-grey">Already have an account? </span>
-       <Link
-         href="/login"
-         className="hover:opacity-70 hover:shadow-btn-active md:pl-1 text-base text-purple transition"
-       >
-         Login
-       </Link>
-     </div>
    </div>
  );
 }
