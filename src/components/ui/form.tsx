@@ -95,11 +95,15 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "text-red", className)}
+      className={cn(
+        error &&
+          "text-red",
+        className,
+      )}
       htmlFor={formItemId}
       {...props}
     />
-  )
+  );
 })
 FormLabel.displayName = "FormLabel"
 
@@ -119,14 +123,9 @@ const FormControl = React.forwardRef<
           : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
-      className={cn(
-        "transition-shadow",
-        error && "ring-1 ring-red ring-offset-0",
-        "!focus:outline-none !focus:ring-0 !active:outline-none !active:ring-0"
-      )}
       {...props}
     />
-  );
+  )
 })
 FormControl.displayName = "FormControl"
 
@@ -140,7 +139,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn("text-xs text-muted-foreground", className)}
+      className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
   )
@@ -162,8 +161,10 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn("text-xs font-normal text-red absolute top-10 right-4", className)}
-      // text-sm font-medium text-destructive
+      className={cn(
+        "absolute right-4 top-[1.88rem] text-xs font-normal text-red",
+        className,
+      )}
       {...props}
     >
       {body}

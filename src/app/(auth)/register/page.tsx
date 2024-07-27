@@ -7,6 +7,8 @@ import { Mail, Lock } from '@/components/Icons';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { cn } from "@/lib/utils";
+
 import {
   Form,
   FormControl,
@@ -44,8 +46,8 @@ export default function Page() {
   // Submit handler
  // Submit handler
 async function onSubmit(values: z.infer<typeof formSchema>) {
-  // Send the login request
-  const response = await fetch('/api/v1/login', {
+
+  const response = await fetch('/api/v1/auth/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -67,104 +69,132 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
 }
 
 
-  return (
-    <div className="w-full bg-white flex flex-col items-start justify-start gap-4 
-          sm:p-6 
-          md:p-10 md:gap-10 md:self-stretch lg:p-8 font-instrument">
-      {/* form heading */}
-      <div className="w-full flex flex-col items-start justify-start">
-        <h2 className="self-stretch font-bold font-instrument leading-9 text-darkGrey text-2xl 
-        md:text-[2rem] md:leading-12 md:font-bold lg:text-3xl">
-          Create account
-        </h2>
-        <div className="self-stretch text-base font-normal non-italic leading-6 text-grey font-instrument md:pt-1 lg:text-xl">
-          Add your details below to get back into the app
-        </div>
-      </div>
-
-      {/* Login form fields */}
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8 w-full gap-4"
-        >
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem className="relative !mt-6">
-                <FormLabel className="text-xs font-normal non-italic leading-[1.12rem]">
-                  Email address
-                </FormLabel>
-                <Mail className="absolute top-10 left-4 w-4 h-4" />
-                <FormControl>
-                  <Input
-                    type="email"
-                    {...field}
-                    placeholder="e.g. alex@email.com"
-                    className="bg-transparent"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem className="relative !mt-6">
-                <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
-                  Password
-                </FormLabel>
-                <Lock className="absolute top-10 left-4 w-4 h-4" />
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Atleast 8 characters"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-<FormField
-            control={form.control}
-            name="confirm_password"
-            render={({ field }) => (
-              <FormItem className="relative !mt-6">
-                <FormLabel className="text-xs font-normal non-italic leading-[1.125rem]">
-                  Password
-                </FormLabel>
-                <Lock className="absolute top-10 left-4 w-4 h-4" />
-                <FormControl>
-                  <Input
-                    type="password"
-                    placeholder="Atleast 8 characters"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button
-            type="submit"
-            className="w-full bg-purple rounded-lg font-semibold leading-6 font-instrument mt-6"
-          >
-            Create new Account
-          </Button>
-        </form>
-      </Form>
-      
-      <div className="w-full flex self-stretch flex-col items-center justify-start font-normal leading-6 md:flex-row md:justify-center md:items-center">
-        <span className="text-grey text-base">Already have an account? </span>
-        <Link href="/login" className="text-purple text-base transition md:pl-1 hover:opacity-70 hover:shadow-btn-active">Login</Link>
+ return (
+   <div className="flex flex-col flex-grow flex-shrink-0 items-start gap-10">
+     {/* form heading */}
+     <div className="flex flex-col items-start gap-2">
+       <h2 className="font-bold font-instrument text-2xl text-darkGrey not-italic leading-9">
+         Login
+       </h2>
+       <div className="font-instrument font-normal text-base text-grey not-italic leading-6">
+         Let&apos;s get you started sharing your links!
        </div>
-    </div>
-  );
+     </div>
+     {/* Registration form fields */}
+     <Form {...form}>
+       <form
+         onSubmit={form.handleSubmit(onSubmit)}
+         className="flex flex-col items-start gap-6 w-full"
+       >
+         <FormField
+           control={form.control}
+           name="username"
+           render={({ field }) => (
+             <FormItem className="relative flex flex-col items-start gap-1 w-full self-stretch">
+               <FormLabel className="w-full font-instrument font-normal text-xs not-italic leading-[18px]">
+                 Email address
+               </FormLabel>
+               <div
+                 className={cn(
+                   "!mt-0 flex w-full items-center gap-3 self-stretch rounded-lg border-[1px] border-solid bg-white px-4 py-3 hover:border-purple focus:border-purple focus-visible:border-purple",
+                   form.formState.errors.username
+                     ? "border-red"
+                     : "border-borders",
+                 )}
+               >
+                 <Mail className="w-4 h-4" />
+                 <FormControl>
+                   <Input
+                     type="email"
+                     {...field}
+                     placeholder="e.g. alex@email.com"
+                   />
+                 </FormControl>
+               </div>
+               <FormMessage />
+             </FormItem>
+           )}
+         />
+
+         <FormField
+           control={form.control}
+           name="password"
+           render={({ field }) => (
+             <FormItem className="relative flex flex-col items-start gap-1 w-full self-stretch">
+               <FormLabel className="w-full font-instrument font-normal text-xs not-italic leading-[18px]">
+                 Create password
+               </FormLabel>
+               <div
+                 className={cn(
+                   "!mt-0 flex w-full items-center gap-3 self-stretch rounded-lg border-[1px] border-solid bg-white px-4 py-3 hover:border-purple focus:border-purple focus-visible:border-purple",
+                   form.formState.errors.password
+                     ? "border-red"
+                     : "border-borders",
+                 )}
+               >
+                 <Lock className="w-4 h-4" />
+                 <FormControl>
+                   <Input
+                     type="password"
+                     {...field}
+                     placeholder="At least 8 characters"
+                   />
+                 </FormControl>
+               </div>
+               <FormMessage />
+             </FormItem>
+           )}
+         />
+         <FormField
+           control={form.control}
+           name="confirm_password"
+           render={({ field }) => (
+             <FormItem className="relative flex flex-col items-start gap-1 w-full self-stretch">
+               <FormLabel className="w-full font-instrument font-normal text-xs not-italic leading-[18px]">
+                 Confirm password
+               </FormLabel>
+               <div
+                 className={cn(
+                   "!mt-0 flex w-full items-center gap-3 self-stretch rounded-lg border-[1px] border-solid bg-white px-4 py-3 hover:border-purple focus:border-purple focus-visible:border-purple",
+                   form.formState.errors.confirm_password
+                     ? "border-red"
+                     : "border-borders",
+                 )}
+               >
+                 <Lock className="w-4 h-4" />
+                 <FormControl>
+                   <Input
+                     type="password"
+                     {...field}
+                     placeholder="At least 8 characters"
+                   />
+                 </FormControl>
+               </div>
+               <FormMessage />
+             </FormItem>
+           )}
+         />
+         <span className="w-full font-instrument font-normal text-grey text-xs not-italic leading-[18px]">
+           Password Must contain at least 8 characters
+         </span>
+
+         <Button
+           type="submit"
+           className="flex flex-col justify-center items-center gap-2 bg-purple px-[1.688rem] py-[.688rem] rounded-lg w-full font-instrument font-semibold text-white not-italic leading-60 self-stretch"
+         >
+           Create new account
+         </Button>
+       </form>
+     </Form>
+     <div className="flex flex-col justify-start md:justify-center items-center md:items-center w-full font-instr font-instrument font-normal text-base text-center not-italic leading-6 self-stretch">
+       <span className="text-base text-grey">Already have an account? </span>
+       <Link
+         href="/login"
+         className="hover:opacity-70 hover:shadow-btn-active md:pl-1 text-base text-purple transition"
+       >
+         Login
+       </Link>
+     </div>
+   </div>
+ );
 }
