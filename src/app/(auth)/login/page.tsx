@@ -145,19 +145,19 @@ export default function Page() {
           >
             Login
           </Button>
+          <div className="flex flex-col justify-start md:justify-center items-center md:items-center w-full font-instr font-instrument font-normal text-base text-center not-italic leading-6 self-stretch">
+            <span className="text-base text-grey">
+              Don&apos;t have an account?{" "}
+            </span>
+            <Link
+              href="/register"
+              className="hover:opacity-70 hover:shadow-btn-active md:pl-1 text-base text-purple transition"
+            >
+              Create account
+            </Link>
+          </div>
         </form>
       </Form>
-      <div className="flex flex-col justify-start md:justify-center items-center md:items-center w-full font-instr font-instrument font-normal text-base text-center not-italic leading-6 self-stretch">
-        <span className="text-base text-grey">
-          Don&apos;t have an account?{" "}
-        </span>
-        <Link
-          href="/register"
-          className="hover:opacity-70 hover:shadow-btn-active md:pl-1 text-base text-purple transition"
-        >
-          Create account
-        </Link>
-      </div>
     </div>
   );
 }
