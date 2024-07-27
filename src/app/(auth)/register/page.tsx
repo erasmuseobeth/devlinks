@@ -74,7 +74,7 @@ async function onSubmit(values: z.infer<typeof formSchema>) {
      {/* form heading */}
      <div className="flex flex-col items-start gap-2">
        <h2 className="font-bold font-instrument text-2xl text-darkGrey not-italic leading-9">
-         Login
+         Create account
        </h2>
        <div className="font-instrument font-normal text-base text-grey not-italic leading-6">
          Let&apos;s get you started sharing your links!
